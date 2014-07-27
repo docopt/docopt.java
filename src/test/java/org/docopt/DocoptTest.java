@@ -6,13 +6,11 @@ import static org.docopt.Python.partition;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import junit.framework.Test;
@@ -120,7 +118,7 @@ public final class DocoptTest extends TestCase {
 
 		final String name = pureBaseName(url);
 
-		String raw = read(url);
+		String raw = Docopt.read(url.openStream());
 
 		raw = Pattern.compile("#.*$", Pattern.MULTILINE).matcher(raw)
 				.replaceAll("");
@@ -182,20 +180,6 @@ public final class DocoptTest extends TestCase {
 		}
 
 		return name.replaceFirst("^.+/", "").replaceFirst("\\.[^.]+$", "");
-	}
-
-	private static String read(final URL url) throws IOException {
-		final InputStream stream = url.openStream();
-
-		final Scanner scanner = new Scanner(stream, "UTF-8");
-
-		try {
-			scanner.useDelimiter("\\A");
-			return scanner.hasNext() ? scanner.next() : "";
-		}
-		finally {
-			scanner.close();
-		}
 	}
 
 	private static List<String> argv(final String argv) {

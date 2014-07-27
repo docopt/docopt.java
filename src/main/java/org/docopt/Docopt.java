@@ -9,12 +9,15 @@ import static org.docopt.Python.partition;
 import static org.docopt.Python.set;
 import static org.docopt.Python.split;
 
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.docopt.Pattern.MatchResult;
@@ -561,6 +564,22 @@ public final class Docopt {
 		}
 	}
 
+	static String read(final InputStream stream, final String charset) {
+		final Scanner scanner = new Scanner(stream, charset);
+
+		try {
+			scanner.useDelimiter("\\A");
+			return scanner.hasNext() ? scanner.next() : "";
+		}
+		finally {
+			scanner.close();
+		}
+	}
+
+	static String read(final InputStream stream) {
+		return read(stream, "UTF-8");
+	}
+
 	private final String doc;
 
 	private final String usage;
@@ -581,6 +600,14 @@ public final class Docopt {
 
 	private PrintStream err = System.err;
 
+	/**
+	 * Constructs an option parser from {@code doc}.
+	 *
+	 * @param doc
+	 *            a POSIX-style help message
+	 * @throws DocoptLanguageError
+	 *             if {@code doc} is malformed
+	 */
 	public Docopt(final String doc) {
 		this.doc = doc;
 
@@ -601,6 +628,34 @@ public final class Docopt {
 		pattern = parsePattern(formalUsage(usage), options);
 	}
 
+	/**
+	 * Constructs an option parser from the contents of {@code doc}, read as a
+	 * {@code charset} encoded string.
+	 *
+	 * @param doc
+	 *            a stream containing a POSIX-style help message
+	 * @param charset
+	 *            the character encoding of the stream
+	 * @throws DocoptLanguageError
+	 *             if {@code doc} is malformed
+	 */
+	public Docopt(final InputStream doc, final Charset charset) {
+		this(read(doc, charset.displayName()));
+	}
+
+	/**
+	 * Constructs an option parser from the contents of {@code doc}, read as a
+	 * UTF-8 string.
+	 *
+	 * @param doc
+	 *            a stream containing a POSIX-style help message
+	 * @throws DocoptLanguageError
+	 *             if {@code doc} is malformed
+	 */
+	public Docopt(final InputStream doc) {
+		this(read(doc));
+	}
+
 	public Docopt withHelp(final boolean help) {
 		this.help = help;
 		return this;
@@ -608,6 +663,16 @@ public final class Docopt {
 
 	public Docopt withVersion(final String version) {
 		this.version = version;
+		return this;
+	}
+
+	public Docopt withVersion(final InputStream stream, final Charset charset) {
+		this.version = read(stream, charset.displayName());
+		return this;
+	}
+
+	public Docopt withVersion(final InputStream stream) {
+		this.version = read(stream);
 		return this;
 	}
 

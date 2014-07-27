@@ -42,7 +42,7 @@ and instead can write only the help message--*the way you want it*.
       public static void main(String[] args) {
         Map<String, Object> opts =
           new Docopt(doc).withVersion("Naval Fate 2.0").parse(args);
-          System.out.println(opts);
+        System.out.println(opts);
       }
   }
 
@@ -51,6 +51,11 @@ Differences from the reference implementation
 
 - Because Java does not support optional or named arguments, this port uses the
   Builder pattern to configure the parser instead of a simple method call.
+
+- Because Java does not provide a way (native) way to read a class's Javadoc,
+  there is no idiomatic way to supply the ``doc`` or ``version`` arguments.
+  This implementation provides convenience methods to read these values from
+  streams (e.g. files within the JAR) in addition to accepting String arguments.
 
 - Because Java does not provide a way to get command line arguments other than
   in a ``main`` method, the ``argv`` parameter is required.
@@ -100,8 +105,15 @@ API
       + "--verbose    print more text\n"
       + "\n";
 
+.. code:: java
+
+  public Docopt(String doc)
+  public Docopt(InputStream doc)
+  public Docopt(InputStream doc, Charset charset)
+
 Constructs an option parser from the ``doc`` argument or throws a
-``DocoptLanguageError`` if it is malformed.
+``DocoptLanguageError`` if it is malformed. If ``doc`` is an ``InputStream``,
+the stream is read using the specified ``CharSet`` (``UTF-8`` by default).
 
 .. code:: java
 
