@@ -22,12 +22,13 @@ import org.docopt.Python.Re;
 
 /**
  * Pythonic command-line interface parser that will make you smile.
- * 
+ *
  * <ul>
  * <li>http://docopt.org
  * <li>Repository and issue-tracker: https://github.com/docopt/docopt
  * <li>Licensed under terms of MIT license (see LICENSE-MIT)
- * <li>Copyright (c) 2013 Vladimir Keleshev, vladimir@keleshev.com
+ * <li>Copyright (c) 2012 Vladimir Keleshev, vladimir@keleshev.com
+ * <li>Copyright (c) 2014 Damien Giese, damien.giese@gmail.com
  * </ul>
  * <p>
  * Changes:
@@ -35,7 +36,7 @@ import org.docopt.Python.Re;
  * <li>Implemented Java-style {@code equals} and {@code hashCode} methods
  * instead of relying on {@code toString}
  * </ul>
- * 
+ *
  * @version 0.6.0
  */
 public final class Docopt {
@@ -268,7 +269,8 @@ public final class Docopt {
 		}
 
 		final List<Pattern> result = (seq.size() > 1) ? list((Pattern) new Required(
-				seq)) : seq;
+				seq))
+				: seq;
 
 		while ("|".equals(tokens.current())) {
 			tokens.move();
@@ -366,7 +368,7 @@ public final class Docopt {
 
 	/**
 	 * Parse command-line argument vector.
-	 * 
+	 *
 	 * If options_first: argv ::= [ long | shorts ]* [ argument ]* [ '--' [
 	 * argument ]* ] ; else: argv ::= [ long | shorts | argument ]* [ '--' [
 	 * argument ]* ] ;
@@ -388,8 +390,8 @@ public final class Docopt {
 			}
 
 			if (tokens.current().startsWith("--")) { // TODO: Why don't we check
-														// for tokens.current !=
-														// "--" here?
+				// for tokens.current !=
+				// "--" here?
 				parsed.addAll(parseLong(tokens, options));
 			}
 			else if (tokens.current().startsWith("-")
