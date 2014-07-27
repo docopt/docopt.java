@@ -20,30 +20,28 @@ and instead can write only the help message--*the way you want it*.
       
   public final class NavalFate {
       
-      private static final String doc = new StringBuilder()
-          .append("Naval Fate.\n")
-          .append("\n")
-          .append("Usage:\n")
-          .append("  naval_fate ship new <name>...\n")
-          .append("  naval_fate ship <name> move <x> <y> [--speed=<kn>]\n")
-          .append("  naval_fate ship shoot <x> <y>\n")
-          .append("  naval_fate mine (set|remove) <x> <y> [--moored | --drifting]\n")
-          .append("  naval_fate (-h | --help)\n")
-          .append("  naval_fate --version\n")
-          .append("\n")
-          .append("Options:\n")
-          .append("  -h --help     Show this screen.\n")
-          .append("  --version     Show version.\n")
-          .append("  --speed=<kn>  Speed in knots [default: 10].\n")
-          .append("  --moored      Moored (anchored) mine.\n")
-          .append("  --drifting    Drifting mine.\n")
-          .append("\n")
-          .toString();
+  private static final String doc =
+      "Naval Fate.\n"
+      + "\n"
+      + "Usage:\n"
+      + "  naval_fate ship new <name>...\n"
+      + "  naval_fate ship <name> move <x> <y> [--speed=<kn>]\n"
+      + "  naval_fate ship shoot <x> <y>\n"
+      + "  naval_fate mine (set|remove) <x> <y> [--moored | --drifting]\n"
+      + "  naval_fate (-h | --help)\n"
+      + "  naval_fate --version\n"
+      + "\n"
+      + "Options:\n"
+      + "  -h --help     Show this screen.\n"
+      + "  --version     Show version.\n"
+      + "  --speed=<kn>  Speed in knots [default: 10].\n"
+      + "  --moored      Moored (anchored) mine.\n"
+      + "  --drifting    Drifting mine.\n"
+      + "\n";
   
       public static void main(String[] args) {
-          Map<String, Object> opts = new Docopt(doc)
-              .withVersion("Naval Fate 2.0")
-              .parse(args);
+        Map<String, Object> opts =
+          new Docopt(doc).withVersion("Naval Fate 2.0").parse(args);
           System.out.println(opts);
       }
   }
@@ -92,16 +90,15 @@ API
 
 .. code:: java
 
-  static final String doc = new StringBuilder()
-      .append("Usage: my_program [-hso FILE] [--quiet | --verbose] [INPUT ...]\n")
-      .append("\n")
-      .append("-h --help    show this\n")
-      .append("-s --sorted  sorted output\n")
-      .append("-o FILE      specify output file [default: ./test.txt]\n")
-      .append("--quiet      print less text\n")
-      .append("--verbose    print more text\n")
-      .append("\n")
-      .toString();
+  static final String doc =
+      "Usage: my_program [-hso FILE] [--quiet | --verbose] [INPUT ...]\n"
+      + "\n"
+      + "-h --help    show this\n"
+      + "-s --sorted  sorted output\n"
+      + "-o FILE      specify output file [default: ./test.txt]\n"
+      + "--quiet      print less text\n"
+      + "--verbose    print more text\n"
+      + "\n";
 
 Constructs an option parser from the ``doc`` argument or throws a
 ``DocoptLanguageError`` if it is malformed.
