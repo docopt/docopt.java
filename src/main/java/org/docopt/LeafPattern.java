@@ -1,10 +1,10 @@
 package org.docopt;
 
-import static org.docopt.internal.python.Python.bool;
-import static org.docopt.internal.python.Python.in;
-import static org.docopt.internal.python.Python.list;
-import static org.docopt.internal.python.Python.plus;
-import static org.docopt.internal.python.Python.repr;
+import static org.docopt.Python.bool;
+import static org.docopt.Python.in;
+import static org.docopt.Python.list;
+import static org.docopt.Python.plus;
+import static org.docopt.Python.repr;
 
 import java.util.List;
 

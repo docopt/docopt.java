@@ -1,12 +1,12 @@
 package org.docopt;
 
-import static org.docopt.internal.python.Python.bool;
-import static org.docopt.internal.python.Python.list;
+import static org.docopt.Python.bool;
+import static org.docopt.Python.list;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.docopt.internal.python.Re;
+import org.docopt.Python.Re;
 
 final class Tokens extends ArrayList<String> {
 

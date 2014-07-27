@@ -1,8 +1,8 @@
 package org.docopt;
 
-import static org.docopt.internal.python.Python.in;
-import static org.docopt.internal.python.Python.join;
-import static org.docopt.internal.python.Python.list;
+import static org.docopt.Python.in;
+import static org.docopt.Python.join;
+import static org.docopt.Python.list;
 
 import java.util.List;
 

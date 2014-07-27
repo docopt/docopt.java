@@ -1,7 +1,7 @@
 package org.docopt;
 
-import static org.docopt.internal.python.Python.list;
-import static org.docopt.internal.python.Python.partition;
+import static org.docopt.Python.list;
+import static org.docopt.Python.partition;
 
 import java.io.File;
 import java.io.FileNotFoundException;

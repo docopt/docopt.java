@@ -1,13 +1,13 @@
 package org.docopt;
 
-import static org.docopt.internal.python.Python.bool;
-import static org.docopt.internal.python.Python.in;
-import static org.docopt.internal.python.Python.isUpper;
-import static org.docopt.internal.python.Python.join;
-import static org.docopt.internal.python.Python.list;
-import static org.docopt.internal.python.Python.partition;
-import static org.docopt.internal.python.Python.set;
-import static org.docopt.internal.python.Python.split;
+import static org.docopt.Python.bool;
+import static org.docopt.Python.in;
+import static org.docopt.Python.isUpper;
+import static org.docopt.Python.join;
+import static org.docopt.Python.list;
+import static org.docopt.Python.partition;
+import static org.docopt.Python.set;
+import static org.docopt.Python.split;
 
 import java.io.PrintStream;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.docopt.Pattern.MatchResult;
-import org.docopt.internal.python.Re;
+import org.docopt.Python.Re;
 
 /**
  * Pythonic command-line interface parser that will make you smile.

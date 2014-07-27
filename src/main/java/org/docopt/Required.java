@@ -1,6 +1,6 @@
 package org.docopt;
 
-import static org.docopt.internal.python.Python.list;
+import static org.docopt.Python.list;
 
 import java.util.List;
 

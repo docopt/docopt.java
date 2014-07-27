@@ -1,9 +1,9 @@
 package org.docopt;
 
-import static org.docopt.internal.python.Python.count;
-import static org.docopt.internal.python.Python.list;
-import static org.docopt.internal.python.Python.set;
-import static org.docopt.internal.python.Python.split;
+import static org.docopt.Python.count;
+import static org.docopt.Python.list;
+import static org.docopt.Python.set;
+import static org.docopt.Python.split;
 
 import java.util.Arrays;
 import java.util.List;
