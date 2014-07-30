@@ -24,12 +24,12 @@ import org.docopt.Pattern.MatchResult;
 import org.docopt.Python.Re;
 
 /**
- * Pythonic command-line interface parser that will make you smile.
+ * Command-line interface parser that will make you smile.
  *
  * <ul>
  * <li>http://docopt.org
- * <li>Repository and issue-tracker: https://github.com/docopt/docopt
- * <li>Licensed under terms of MIT license (see LICENSE-MIT)
+ * <li>Repository and issue-tracker: https://github.com/docopt/docopt.java
+ * <li>Licensed under terms of MIT license (see LICENSE)
  * <li>Copyright (c) 2012 Vladimir Keleshev, vladimir@keleshev.com
  * <li>Copyright (c) 2014 Damien Giese, damien.giese@gmail.com
  * </ul>
