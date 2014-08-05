@@ -1,7 +1,10 @@
 package org.docopt;
 
-import static org.docopt.Python.list;
-import static org.docopt.Python.partition;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,12 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.docopt.Python.list;
+import static org.docopt.Python.partition;
 
 public final class DocoptTest extends TestCase {
 
@@ -139,11 +138,11 @@ public final class DocoptTest extends TestCase {
 			final String doc;
 			final String body;
 
-			// >>> doc, _, body = fixture.partition('"""')
+			// >>> doc, u, body = fixture.partition('"""')
 			{
-				final String[] _ = partition(fixture, "\"\"\"");
-				doc = _[0];
-				body = _[2];
+				final String[] u = partition(fixture, "\"\"\"");
+				doc = u[0];
+				body = u[2];
 			}
 
 			boolean first = true;
@@ -157,11 +156,11 @@ public final class DocoptTest extends TestCase {
 				final String argv;
 				final String expect;
 
-				// >>> argv, _, expect = case.strip().partition('\n')
+				// >>> argv, u, expect = case.strip().partition('\n')
 				{
-					final String[] _ = partition(_case.trim(), "\n");
-					argv = _[0];
-					expect = _[2];
+					final String[] u = partition(_case.trim(), "\n");
+					argv = u[0];
+					expect = u[2];
 				}
 
 				suite.addTest(new DocoptTest(String.format("%s_%d", name,
@@ -183,9 +182,9 @@ public final class DocoptTest extends TestCase {
 	}
 
 	private static List<String> argv(final String argv) {
-		final List<String> _ = list(argv.trim().split("\\s+"));
-		_.remove(0);
-		return _;
+		final List<String> u = list(argv.trim().split("\\s+"));
+		u.remove(0);
+		return u;
 	}
 
 	private static String argv(final List<String> argv) {
