@@ -706,6 +706,8 @@ public final class Docopt {
 					for (final Pattern x : patternOptions) {
 						if (o.equals(x)) {
 							i.remove();
+							// Make sure we don't try to remove the same option twice
+							break;
 						}
 					}
 				}
@@ -787,3 +789,4 @@ public final class Docopt {
 		return this;
 	}
 }
+
