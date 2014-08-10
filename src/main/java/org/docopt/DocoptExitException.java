@@ -1,8 +1,9 @@
 package org.docopt;
 
 /**
- * 
- * Exit in case user invoked program with incorrect arguments.
+ * An exception thrown by {@link Docopt#parse} to indicate that the application
+ * should exit. This could be normal (e.g. default {@code --help} behavior) or
+ * abnormal (e.g. incorrect arguments).
  */
 public final class DocoptExitException extends RuntimeException {
 
@@ -23,11 +24,17 @@ public final class DocoptExitException extends RuntimeException {
 		this(exitCode, null, false);
 	}
 
+	/**
+	 * Returns a numeric code indicating the cause of the exit. By convention, a
+	 * non-zero code indicates abnormal termination.
+	 *
+	 * @return the exit code
+	 */
 	public int getExitCode() {
 		return exitCode;
 	}
 
-	public boolean getPrintUsage() {
+	boolean getPrintUsage() {
 		return printUsage;
 	}
 }

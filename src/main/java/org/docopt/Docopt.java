@@ -23,29 +23,61 @@ import java.util.Set;
 import org.docopt.Pattern.MatchResult;
 import org.docopt.Python.Re;
 
+// @formatter:off
 /**
  * Command-line interface parser that will make you smile.
- *
- * <ul>
- * <li>http://docopt.org
- * <li>Repository and issue-tracker: https://github.com/docopt/docopt.java
- * <li>Licensed under terms of MIT license (see LICENSE)
- * <li>Copyright (c) 2012 Vladimir Keleshev, vladimir@keleshev.com
- * <li>Copyright (c) 2014 Damien Giese, damien.giese@gmail.com
- * </ul>
  * <p>
- * Changes:
- * <ul>
- * <li>Implemented Java-style {@code equals} and {@code hashCode} methods
- * instead of relying on {@code toString}
- * </ul>
+ * Parses arguments based on the same POSIX-style usage pattern that would be
+ * displayed when using the --help option. Simplifies handling command line
+ * arguments and ensures that the parser is consistent with the documentation.
+ * <h3>Example</h3>
+ *
+ * <pre>
+ * class NavalFate {
+ *
+ *   private static final String doc =
+ *       &quot;Naval Fate.\n&quot;
+ *       + &quot;\n&quot;
+ *       + &quot;Usage:\n&quot;
+ *       + &quot;  naval_fate ship new &lt;name&gt;...\n&quot;
+ *       + &quot;  naval_fate ship &lt;name&gt; move &lt;x&gt; &lt;y&gt; [--speed=&lt;kn&gt;]\n&quot;
+ *       + &quot;  naval_fate ship shoot &lt;x&gt; &lt;y&gt;\n&quot;
+ *       + &quot;  naval_fate mine (set|remove) &lt;x&gt; &lt;y&gt; [--moored | --drifting]\n&quot;
+ *       + &quot;  naval_fate (-h | --help)\n&quot;
+ *       + &quot;  naval_fate --version\n&quot;
+ *       + &quot;\n&quot;
+ *       + &quot;Options:\n&quot;
+ *       + &quot;  -h --help     Show this screen.\n&quot;
+ *       + &quot;  --version     Show version.\n&quot;
+ *       + &quot;  --speed=&lt;kn&gt;  Speed in knots [default: 10].\n&quot;
+ *       + &quot;  --moored      Moored (anchored) mine.\n&quot;
+ *       + &quot;  --drifting    Drifting mine.\n&quot;
+ *       + &quot;\n&quot;;
+ *
+ *   public static void main(String[] args) {
+ *     Map&lt;String, Object&gt; opts =
+ *         new Docopt(doc).withVersion(&quot;Naval Fate 2.0&quot;).parse(args);
+ *     System.out.println(opts);
+ *   }
+ * }
+ * </pre>
+ *
+ * Licensed under terms of MIT license (see LICENSE).
+ * <p>
+ * Copyright (c) 2012 Vladimir Keleshev, vladimir@keleshev.com<br />
+ * Copyright (c) 2014 Damien Giese, damien.giese@gmail.com
  *
  * @version 0.6.0
+ * @see <a href="http://docopt.org">docopt.org</a>
+ * @see <a href="https://github.com/docopt/docopt.java">docopt for Java</a>
  */
+// @formatter:on
 public final class Docopt {
 
 	/**
+	 * <pre>
 	 * long ::= '--' chars [ ( ' ' | '=' ) chars ] ;
+	 * </pre>
 	 */
 	private static List<Option> parseLong(final Tokens tokens,
 			final List<Option> options) {
@@ -83,8 +115,9 @@ public final class Docopt {
 		}
 
 		if (tokens.getError() == DocoptExitException.class && similar.isEmpty()) {
-			// >>> similar = [o for o in options if o.long and
-			// o.long.startswith(long)]
+			// @formatter:off
+			// >>> similar = [o for o in options if o.long and  o.long.startswith(long)]
+			// @formatter:on
 			{
 				for (final Option o : options) {
 					if (o.getLong() != null && o.getLong().startsWith($long)) {
@@ -119,15 +152,18 @@ public final class Docopt {
 			options.add(o);
 
 			if (tokens.getError() == DocoptExitException.class) {
-				// >>> o = Option(None, long, argcount, value if argcount else
-				// True)
+				// @formatter:off
+				// >>> o = Option(None, long, argcount, value if argcount else True)
+				// @formatter:on
 				o = new Option(null, $long, argCount, (argCount != 0) ? value
 						: true);
 			}
 		}
 		else {
+			// @formatter:off
 			// >>> o = Option(similar[0].short, similar[0].long,
-			// >>> similar[0].argcount, similar[0].value)
+			// >>>            similar[0].argcount, similar[0].value)
+			// @formatter:on
 			{
 				final Option _ = similar.get(0);
 				o = new Option(_.getShort(), _.getLong(), _.getArgCount(),
@@ -164,7 +200,9 @@ public final class Docopt {
 	}
 
 	/**
+	 * <pre>
 	 * shorts ::= '-' ( chars )* [ [ ' ' ] chars ] ;
+	 * </pre>
 	 */
 	private static List<Option> parseShorts(final Tokens tokens,
 			final List<Option> options) {
@@ -209,8 +247,10 @@ public final class Docopt {
 				}
 			}
 			else {
+				// @formatter:off
 				// >>> o = Option(short, similar[0].long,
-				// >>> similar[0].argcount, similar[0].value)
+				// >>>            similar[0].argcount, similar[0].value)
+				// @formatter:on
 				{
 					final Option _ = similar.get(0);
 					o = new Option($short, _.getLong(), _.getArgCount(),
@@ -261,7 +301,9 @@ public final class Docopt {
 	}
 
 	/**
+	 * <pre>
 	 * expr ::= seq ( '|' seq )* ;
+	 * </pre>
 	 */
 	private static List<? extends Pattern> parseExpr(final Tokens tokens,
 			final List<Option> options) {
@@ -285,7 +327,9 @@ public final class Docopt {
 	}
 
 	/**
+	 * <pre>
 	 * seq ::= ( atom [ '...' ] )* ;
+	 * </pre>
 	 */
 	private static List<Pattern> parseSeq(final Tokens tokens,
 			final List<Option> options) {
@@ -306,10 +350,13 @@ public final class Docopt {
 		return result;
 	}
 
+	// @formatter:off
 	/**
-	 * atom ::= '(' expr ')' | '[' expr ']' | 'options' | long | shorts |
-	 * argument | command ;
+	 * <pre>
+	 * atom ::= '(' expr ')' | '[' expr ']' | 'options' | long | shorts | argument | command ;
+	 * </pre>
 	 */
+	// @formatter:on
 	private static List<? extends Pattern> parseAtom(final Tokens tokens,
 			final List<Option> options) {
 		final String token = tokens.current();
@@ -321,9 +368,10 @@ public final class Docopt {
 
 			String matching;
 
-			// >>> matching, pattern = {'(': [')', Required], '[': [']',
-			// Optional]}[token]
+			// @formatter:off
+			// >>> matching, pattern = {'(': [')', Required], '[': [']', Optional]}[token]
 			// >>> result = pattern(*parse_expr(tokens, options))
+			// @formatter:on
 			{
 				final List<? extends Pattern> _ = parseExpr(tokens, options);
 
@@ -360,8 +408,6 @@ public final class Docopt {
 			return parseShorts(tokens, options);
 		}
 
-		// >>> elif token.startswith('<') and token.endswith('>') or
-		// token.isupper()
 		if ((token.startsWith("<") && token.endsWith(">")) || isUpper(token)) {
 			return list(new Argument(tokens.move()));
 		}
@@ -371,10 +417,19 @@ public final class Docopt {
 
 	/**
 	 * Parse command-line argument vector.
+	 * <p>
+	 * If {@code optionsFirst} is {@code true}, the arguments must appear in the
+	 * form:
 	 *
-	 * If options_first: argv ::= [ long | shorts ]* [ argument ]* [ '--' [
-	 * argument ]* ] ; else: argv ::= [ long | shorts | argument ]* [ '--' [
-	 * argument ]* ] ;
+	 * <pre>
+	 * argv ::= [ long | shorts ]* [ argument ]* [ '--' [ argument ]* ] ;
+	 * </pre>
+	 *
+	 * Otherwise, the arguments must appear in the form:
+	 *
+	 * <pre>
+	 * argv ::= [ long | shorts | argument ]* [ '--' [ argument ]* ] ;
+	 * </pre>
 	 */
 	private static List<LeafPattern> parseArgv(final Tokens tokens,
 			final List<Option> options, final boolean optionsFirst) {
@@ -392,9 +447,8 @@ public final class Docopt {
 				}
 			}
 
-			if (tokens.current().startsWith("--")) { // TODO: Why don't we check
-				// for tokens.current !=
-				// "--" here?
+			// TODO: Why don't we check for tokens.current != "--" here?
+			if (tokens.current().startsWith("--")) {
 				parsed.addAll(parseLong(tokens, options));
 			}
 			else if (tokens.current().startsWith("-")
@@ -448,9 +502,10 @@ public final class Docopt {
 				split = _;
 			}
 
-			// >>> options = [Option.parse(s) for s in split if
-			// s.startswith('-')]
+			// @formatter:off
+			// >>> options = [Option.parse(s) for s in split if s.startswith('-')]
 			// >>> defaults += options
+			// @formatter:on
 			{
 				for (final String $s : split) {
 					if ($s.startsWith("-")) {
@@ -488,8 +543,9 @@ public final class Docopt {
 
 		final List<String> pu = split(section);
 
-		// >>> return '( ' + ' '.join(') | (' if s == pu[0] else s for s in
-		// pu[1:]) + ' )'
+		// @formatter:off
+		// >>> return '( ' + ' '.join(') | (' if s == pu[0] else s for s in pu[1:]) + ' )'
+		// @formatter:on
 		{
 			final StringBuilder sb = new StringBuilder();
 
@@ -522,8 +578,9 @@ public final class Docopt {
 			final List<? extends LeafPattern> options, final String doc) {
 		boolean _;
 
-		// >>> if help and any((o.name in ('-h', '--help')) and o.value for o in
-		// options)
+		// @formatter:off
+		// >>> if help and any((o.name in ('-h', '--help')) and o.value for o in options)
+		// @formatter:on
 		{
 			_ = false;
 
@@ -539,13 +596,16 @@ public final class Docopt {
 			}
 		}
 
+		// Default --help behavior: print documentation and exit with success
+		// status.
 		if (_) {
 			throw new DocoptExitException(0, doc.replaceAll("^\\n+|\\n+$", ""),
 					false);
 		}
 
-		// >>> if version and any(o.name == '--version' and o.value for o in
-		// options)
+		// @formatter:off
+		// >>> if version and any(o.name == '--version' and o.value for o in options)
+		// @formatter:on
 		{
 			_ = false;
 
@@ -559,6 +619,8 @@ public final class Docopt {
 			}
 		}
 
+		// Default --version behavior: print version and exit with success
+		// status.
 		if (_) {
 			throw new DocoptExitException(0, version, false);
 		}
@@ -601,12 +663,13 @@ public final class Docopt {
 	private PrintStream err = System.err;
 
 	/**
-	 * Constructs an option parser from {@code doc}.
+	 * Constructs an argument parser from a POSIX-style help message.
 	 *
 	 * @param doc
 	 *            a POSIX-style help message
 	 * @throws DocoptLanguageError
-	 *             if {@code doc} is malformed
+	 *             if the help message is malformed
+	 * @see Docopt
 	 */
 	public Docopt(final String doc) {
 		this.doc = doc;
@@ -629,72 +692,138 @@ public final class Docopt {
 	}
 
 	/**
-	 * Constructs an option parser from the contents of {@code doc}, read as a
-	 * {@code charset} encoded string.
+	 * Constructs an argument parser from a POSIX-style help message.
 	 *
-	 * @param doc
+	 * @param stream
 	 *            a stream containing a POSIX-style help message
 	 * @param charset
 	 *            the character encoding of the stream
 	 * @throws DocoptLanguageError
-	 *             if {@code doc} is malformed
+	 *             if the help message is malformed
+	 * @see Docopt
 	 */
-	public Docopt(final InputStream doc, final Charset charset) {
-		this(read(doc, charset.displayName()));
+	public Docopt(final InputStream stream, final Charset charset) {
+		this(read(stream, charset.displayName()));
 	}
 
 	/**
-	 * Constructs an option parser from the contents of {@code doc}, read as a
-	 * UTF-8 string.
+	 * Constructs an argument parser from a POSIX-style help message.
 	 *
-	 * @param doc
-	 *            a stream containing a POSIX-style help message
+	 * @param stream
+	 *            a UTF-8 encoded stream containing a POSIX-style help message
 	 * @throws DocoptLanguageError
-	 *             if {@code doc} is malformed
+	 *             if the help message is malformed
+	 * @see Docopt
 	 */
-	public Docopt(final InputStream doc) {
-		this(read(doc));
+	public Docopt(final InputStream stream) {
+		this(read(stream));
 	}
 
-	public Docopt withHelp(final boolean help) {
-		this.help = help;
+	/**
+	 * If {@code enabled} is {@code true}, the default behavior for the
+	 * {@code --help} (or {@code -h}) option will be used when the
+	 * {@link #parse} method is invoked, causing the parser to display the
+	 * argument to the constructor.
+	 * <p>
+	 * Enabled by default.
+	 *
+	 * @param enabled
+	 *            {@code true} to enable; {@code false} to disable
+	 * @return this object
+	 * @see Docopt
+	 * @see #parse
+	 */
+	public Docopt withHelp(final boolean enabled) {
+		this.help = enabled;
 		return this;
 	}
 
+	/**
+	 * If set to a non-{@code null} value, the {@code --version} option will be
+	 * cause the parser to display the specified string and exit.
+	 *
+	 * @param version
+	 *            the version information to display
+	 * @return this object
+	 */
 	public Docopt withVersion(final String version) {
 		this.version = version;
 		return this;
 	}
 
+	/**
+	 * If set to a non-{@code null} value, the {@code --version} option will be
+	 * cause the parser to display the specified string and exit.
+	 *
+	 * @param stream
+	 *            a stream to read containing the version information
+	 * @param charset
+	 *            the character encoding of {@code stream}
+	 * @return this object
+	 */
 	public Docopt withVersion(final InputStream stream, final Charset charset) {
 		this.version = read(stream, charset.displayName());
 		return this;
 	}
 
+	/**
+	 * If set to a non-{@code null} value, the {@code --version} option will be
+	 * cause the parser to display the specified string and exit.
+	 *
+	 * @param stream
+	 *            a UTF-8 encoded stream to read containing the version
+	 *            information
+	 * @return this object
+	 */
 	public Docopt withVersion(final InputStream stream) {
 		this.version = read(stream);
 		return this;
 	}
 
-	public Docopt withOptionsFirst(final boolean optionsFirst) {
-		this.optionsFirst = optionsFirst;
+	/**
+	 * If {@code enabled} is {@code true}, the parser will require options
+	 * (e.g&#46; {@code --verbose}) to precede positional arguments (e.g&#46;
+	 * FILE).
+	 * <p>
+	 * Disabled by default.
+	 *
+	 * @param enabled
+	 *            {@code true} to enable; {@code false} to disable
+	 * @return this object
+	 */
+	public Docopt withOptionsFirst(final boolean enabled) {
+		this.optionsFirst = enabled;
 		return this;
 	}
 
-	public Docopt withExit(final boolean exit) {
-		this.exit = exit;
+	/**
+	 * If {@code enabled} is {@code true}, the parser may terminate the JVM.
+	 * Otherwise, a {@link DocoptExitException} will be thrown instead.
+	 * <p>
+	 * Enabled by default.
+	 *
+	 * @param enabled
+	 *            {@code true} to enable; {@code false} to disable
+	 * @return this object
+	 * @see #parse
+	 * @see #withHelp
+	 * @see #withVersion
+	 */
+	public Docopt withExit(final boolean enabled) {
+		this.exit = enabled;
 		return this;
 	}
 
 	private Map<String, Object> doParse(final List<String> argv) {
 		final List<LeafPattern> $argv = parseArgv(
-				Tokens.withExitExcpetion(argv), list(options), optionsFirst);
+				Tokens.withExitException(argv), list(options), optionsFirst);
 		final Set<Pattern> patternOptions = set(pattern.flat(Option.class));
 
 		for (final Pattern optionsShortcut : pattern
 				.flat(OptionsShortcut.class)) {
-			// >>> options_shortcut.children = list(set(doc_options) -
-			// pattern_options)
+			// @formatter:off
+			// >>> options_shortcut.children = list(set(doc_options) - pattern_options			// @formatter:on
+			// @formatter:on
 			{
 				final List<Pattern> _ = ((BranchPattern) optionsShortcut)
 						.getChildren();
@@ -717,8 +846,9 @@ public final class Docopt {
 		final MatchResult m = pattern.fix().match($argv);
 
 		if (m.matched() && m.getLeft().isEmpty()) {
-			// >>> return Dict((a.name, a.value) for a in (pattern.flat() +
-			// collected))
+			// @formatter:off
+			// >>> return Dict((a.name, a.value) for a in (pattern.flat() + collected))
+			// @formatter:on
 			final Map<String, Object> _ = new HashMap<String, Object>();
 
 			for (final Pattern p : pattern.flat()) {
@@ -739,10 +869,37 @@ public final class Docopt {
 			return _;
 		}
 
+		// Arguments did not match any usage pattern. Print usage and exit with
+		// error status.
 		throw new DocoptExitException(1, null, true);
 	}
 
-	public Map<String, Object> parse(final List<String> argv) {
+	/**
+	 * Parses {@code argv} based on command-line interface described by the
+	 * argument to the constructor.
+	 * <p>
+	 * This method will attempt to exit the invoking application if:
+	 * <ul>
+	 * <li>the arguments cannot be parsed
+	 * <li>the default {@code --help} behavior is invoked
+	 * <li>the default {@code --version} behavior is invoked
+	 * </ul>
+	 * <p>
+	 * In any of these cases, the parser will either terminate the JVM or throw
+	 * a {@link DocoptExitException}, depending on configuration via
+	 * {@link #withExit}.
+	 *
+	 * @param argv
+	 *            the command line arguments
+	 * @return A {@code Map}, where keys are names of command-line elements,
+	 *         such as "--verbose" and "&lt;path&gt;", and values are the parsed
+	 *         values of those elements.
+	 * @throws DocoptExitException
+	 *             if the application should exit and JVM termination has been
+	 *             disabled via {@link #withExit}
+	 */
+	public Map<String, Object> parse(final List<String> argv)
+			throws DocoptExitException {
 		try {
 			return doParse(argv);
 		}
@@ -773,6 +930,30 @@ public final class Docopt {
 		}
 	}
 
+	/**
+	 * Parses {@code argv} based on command-line interface described by the
+	 * argument to the constructor.
+	 * <p>
+	 * This method will attempt to exit the invoking application if:
+	 * <ul>
+	 * <li>the arguments cannot be parsed
+	 * <li>the default {@code --help} behavior is invoked
+	 * <li>the default {@code --version} behavior is invoked
+	 * </ul>
+	 * <p>
+	 * In any of these cases, the parser will either terminate the JVM or throw
+	 * a {@link DocoptExitException}, depending on configuration via
+	 * {@link #withExit}.
+	 *
+	 * @param argv
+	 *            the command line arguments
+	 * @return A {@code Map}, where keys are names of command-line elements,
+	 *         such as "--verbose" and "&lt;path&gt;", and values are the parsed
+	 *         values of those elements.
+	 * @throws DocoptExitException
+	 *             if the application should exit and JVM termination has been
+	 *             disabled via {@link #withExit}
+	 */
 	public Map<String, Object> parse(final String... argv) {
 		return parse(Arrays.asList(argv));
 	}

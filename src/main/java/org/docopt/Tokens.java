@@ -12,7 +12,7 @@ final class Tokens extends ArrayList<String> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static Tokens withExitExcpetion(final List<String> source) {
+	public static Tokens withExitException(final List<String> source) {
 		return new Tokens(source, DocoptExitException.class);
 	}
 
