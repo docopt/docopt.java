@@ -115,7 +115,7 @@ public final class Docopt {
 		}
 
 		if (tokens.getError() == DocoptExitException.class && similar.isEmpty()) {
-			// @formatter:off
+// @formatter:off
 			// >>> similar = [o for o in options if o.long and  o.long.startswith(long)]
 			// @formatter:on
 			{
@@ -128,18 +128,18 @@ public final class Docopt {
 		}
 
 		if (similar.size() > 1) {
-			List<String> _;
+			List<String> u;
 
 			// >>> o.long for o in similar
 			{
-				_ = list();
+				u = list();
 				for (final Option o : similar) {
-					_.add(o.getLong());
+					u.add(o.getLong());
 				}
 			}
 
 			throw tokens.error("%s is not a unique prefix: %s?", $long,
-					join(", ", _));
+					join(", ", u));
 		}
 
 		Option o;
@@ -160,14 +160,14 @@ public final class Docopt {
 			}
 		}
 		else {
-			// @formatter:off
+// @formatter:off
 			// >>> o = Option(similar[0].short, similar[0].long,
 			// >>>            similar[0].argcount, similar[0].value)
 			// @formatter:on
 			{
-				final Option _ = similar.get(0);
-				o = new Option(_.getShort(), _.getLong(), _.getArgCount(),
-						_.getValue());
+				final Option u = similar.get(0);
+				o = new Option(u.getShort(), u.getLong(), u.getArgCount(),
+						u.getValue());
 			}
 
 			if (o.getArgCount() == 0) {
@@ -180,8 +180,8 @@ public final class Docopt {
 				if (value == null) {
 					// >>> if tokens.current() in [None, '--']
 					{
-						final String _ = tokens.current();
-						if (_ == null || "--".equals(_)) {
+						final String u = tokens.current();
+						if (u == null || "--".equals(u)) {
 							throw tokens.error("%s requires argument",
 									o.getLong());
 						}
@@ -247,14 +247,14 @@ public final class Docopt {
 				}
 			}
 			else {
-				// @formatter:off
+// @formatter:off
 				// >>> o = Option(short, similar[0].long,
 				// >>>            similar[0].argcount, similar[0].value)
 				// @formatter:on
 				{
-					final Option _ = similar.get(0);
-					o = new Option($short, _.getLong(), _.getArgCount(),
-							_.getValue());
+					final Option u = similar.get(0);
+					o = new Option($short, u.getLong(), u.getArgCount(),
+							u.getValue());
 				}
 
 				String value = null;
@@ -263,8 +263,8 @@ public final class Docopt {
 					if ("".equals(left)) {
 						// >>> if tokens.current() in [None, '--']
 						{
-							final String _ = tokens.current();
-							if (_ == null || "--".equals(_)) {
+							final String u = tokens.current();
+							if (u == null || "--".equals(u)) {
 								throw tokens.error("%s requires argument",
 										$short);
 							}
@@ -373,15 +373,15 @@ public final class Docopt {
 			// >>> result = pattern(*parse_expr(tokens, options))
 			// @formatter:on
 			{
-				final List<? extends Pattern> _ = parseExpr(tokens, options);
+				final List<? extends Pattern> u = parseExpr(tokens, options);
 
 				if ("(".equals(token)) {
 					matching = ")";
-					result = list((Pattern) new Required(_));
+					result = list((Pattern) new Required(u));
 				}
 				else if ("[".equals(token)) {
 					matching = "]";
-					result = list((Pattern) new Optional(_));
+					result = list((Pattern) new Optional(u));
 				}
 				else {
 					throw new IllegalStateException();
@@ -477,10 +477,10 @@ public final class Docopt {
 		final List<Option> defaults = list();
 
 		for (String s : parseSection("options:", doc)) {
-			// >>> _, _, s = s.partition(':') # get rid of "options:"
+			// >>> u, u, s = s.partition(':') # get rid of "options:"
 			{
-				final String[] _ = partition(s, ":");
-				s = _[2];
+				final String[] u = partition(s, ":");
+				s = u[2];
 			}
 
 			List<String> split;
@@ -493,13 +493,13 @@ public final class Docopt {
 
 			// >>> split = [s1 + s2 for s1, s2 in zip(split[::2], split[1::2])];
 			{
-				final List<String> _ = list();
+				final List<String> u = list();
 
 				for (int i = 1; i < split.size(); i += 2) {
-					_.add(split.get(i - 1) + split.get(i));
+					u.add(split.get(i - 1) + split.get(i));
 				}
 
-				split = _;
+				split = u;
 			}
 
 			// @formatter:off
@@ -522,23 +522,23 @@ public final class Docopt {
 			final String source) {
 		// >>> return [s.strip() for s in pattern.findall(source)]
 		{
-			final List<String> _ = Re.findAll("^([^\\n]*" + name +
+			final List<String> u = Re.findAll("^([^\\n]*" + name +
 					"[^\\n]*\\n?(?:[ \\t].*?(?:\\n|$))*)", source,
 					Re.IGNORECASE | Re.MULTILINE);
 
-			for (int i = 0; i < _.size(); i++) {
-				_.set(i, _.get(i).trim());
+			for (int i = 0; i < u.size(); i++) {
+				u.set(i, u.get(i).trim());
 			}
 
-			return _;
+			return u;
 		}
 	}
 
 	private static String formalUsage(String section) {
-		// >>> _, _, section = section.partition(':')
+		// >>> u, u, section = section.partition(':')
 		{
-			final String[] _ = partition(section, ":");
-			section = _[2];
+			final String[] u = partition(section, ":");
+			section = u[2];
 		}
 
 		final List<String> pu = split(section);
@@ -551,11 +551,11 @@ public final class Docopt {
 
 			sb.append("( ");
 
-			final String _ = pu.remove(0);
+			final String u = pu.remove(0);
 
 			if (!pu.isEmpty()) {
 				for (final String s : pu) {
-					if (s.equals(_)) {
+					if (s.equals(u)) {
 						sb.append(") | (");
 					}
 					else {
@@ -576,19 +576,19 @@ public final class Docopt {
 
 	private static void extras(final boolean help, final String version,
 			final List<? extends LeafPattern> options, final String doc) {
-		boolean _;
+		boolean u;
 
 		// @formatter:off
 		// >>> if help and any((o.name in ('-h', '--help')) and o.value for o in options)
 		// @formatter:on
 		{
-			_ = false;
+			u = false;
 
 			if (help) {
 				for (final LeafPattern o : options) {
 					if ("-h".equals(o.getName()) | "--help".equals(o.getName())) {
 						if (bool(o.getValue())) {
-							_ = true;
+							u = true;
 							break;
 						}
 					}
@@ -598,7 +598,7 @@ public final class Docopt {
 
 		// Default --help behavior: print documentation and exit with success
 		// status.
-		if (_) {
+		if (u) {
 			throw new DocoptExitException(0, doc.replaceAll("^\\n+|\\n+$", ""),
 					false);
 		}
@@ -607,12 +607,12 @@ public final class Docopt {
 		// >>> if version and any(o.name == '--version' and o.value for o in options)
 		// @formatter:on
 		{
-			_ = false;
+			u = false;
 
 			if (bool(version)) {
 				for (final LeafPattern o : options) {
 					if ("--version".equals(o.getName())) {
-						_ = true;
+						u = true;
 						break;
 					}
 				}
@@ -621,7 +621,7 @@ public final class Docopt {
 
 		// Default --version behavior: print version and exit with success
 		// status.
-		if (_) {
+		if (u) {
 			throw new DocoptExitException(0, version, false);
 		}
 	}
@@ -821,16 +821,16 @@ public final class Docopt {
 
 		for (final Pattern optionsShortcut : pattern
 				.flat(OptionsShortcut.class)) {
-			// @formatter:off
+// @formatter:off
 			// >>> options_shortcut.children = list(set(doc_options) - pattern_options			// @formatter:on
 			// @formatter:on
 			{
-				final List<Pattern> _ = ((BranchPattern) optionsShortcut)
+				final List<Pattern> u = ((BranchPattern) optionsShortcut)
 						.getChildren();
-				_.clear();
-				_.addAll(set(options));
+				u.clear();
+				u.addAll(set(options));
 				Pattern o = null;
-				for (final Iterator<Pattern> i = _.iterator(); i.hasNext();) {
+				for (final Iterator<Pattern> i = u.iterator(); i.hasNext();) {
 					o = i.next();
 					for (final Pattern x : patternOptions) {
 						if (o.equals(x)) {
@@ -849,7 +849,7 @@ public final class Docopt {
 			// @formatter:off
 			// >>> return Dict((a.name, a.value) for a in (pattern.flat() + collected))
 			// @formatter:on
-			final Map<String, Object> _ = new HashMap<String, Object>();
+			final Map<String, Object> u = new HashMap<String, Object>();
 
 			for (final Pattern p : pattern.flat()) {
 				// TODO: Does flat always return LeafPattern objects?
@@ -859,14 +859,14 @@ public final class Docopt {
 
 				final LeafPattern lp = (LeafPattern) p;
 
-				_.put(lp.getName(), lp.getValue());
+				u.put(lp.getName(), lp.getValue());
 			}
 
 			for (final LeafPattern p : m.getCollected()) {
-				_.put(p.getName(), p.getValue());
+				u.put(p.getName(), p.getValue());
 			}
 
-			return _;
+			return u;
 		}
 
 		// Arguments did not match any usage pattern. Print usage and exit with

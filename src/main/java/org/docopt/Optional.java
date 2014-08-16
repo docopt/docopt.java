@@ -1,8 +1,8 @@
 package org.docopt;
 
-import static org.docopt.Python.list;
-
 import java.util.List;
+
+import static org.docopt.Python.list;
 
 class Optional extends BranchPattern {
 
@@ -18,9 +18,9 @@ class Optional extends BranchPattern {
 		}
 
 		for (final Pattern pattern : getChildren()) {
-			final MatchResult _ = pattern.match(left, collected);
-			left = _.getLeft();
-			collected = _.getCollected();
+			final MatchResult u = pattern.match(left, collected);
+			left = u.getLeft();
+			collected = u.getCollected();
 		}
 
 		return new MatchResult(true, left, collected);
