@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.docopt.Python.Re;
 
-final class Option extends LeafPattern {
+public final class Option extends LeafPattern {
 
 	private final String $short;
 

@@ -2,7 +2,7 @@ package org.docopt;
 
 import java.util.List;
 
-final class Command extends Argument {
+public final class Command extends Argument {
 
 	public Command(final String name, final Object value) {
 		super(name, value);

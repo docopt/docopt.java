@@ -4,7 +4,7 @@ import static org.docopt.Python.list;
 
 import java.util.List;
 
-final class Required extends BranchPattern {
+public final class Required extends BranchPattern {
 
 	public Required(final List<? extends Pattern> children) {
 		super(children);

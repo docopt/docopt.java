@@ -2,7 +2,7 @@ package org.docopt;
 
 import java.util.List;
 
-class Argument extends LeafPattern {
+public class Argument extends LeafPattern {
 
 	public Argument(final String name, final Object value) {
 		super(name, value);

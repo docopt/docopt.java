@@ -8,9 +8,9 @@ import static org.docopt.Python.split;
 import java.util.Arrays;
 import java.util.List;
 
-abstract class Pattern {
+public abstract class Pattern {
 
-	static class MatchResult {
+	public static class MatchResult {
 
 		private final boolean match;
 
@@ -45,7 +45,7 @@ abstract class Pattern {
 
 	/**
 	 * Expand pattern into an (almost) equivalent one, but with single Either.
-	 * 
+	 *
 	 * Example: ((-a | -b) (-c | -d)) => (-a -c | -a -d | -b -c | -b -d) Quirks:
 	 * [-a] => (-a), (-a...) => (-a -a)
 	 */
@@ -203,7 +203,7 @@ abstract class Pattern {
 	protected abstract MatchResult match(List<LeafPattern> left,
 			List<LeafPattern> collected);
 
-	protected MatchResult match(final List<LeafPattern> left) {
+	public MatchResult match(final List<LeafPattern> left) {
 		return match(left, null);
 	}
 
