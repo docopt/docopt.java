@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.docopt.Python.Re;
 
-final class Tokens extends ArrayList<String> {
+public final class Tokens extends ArrayList<String> {
 
 	private static final long serialVersionUID = 1L;
 

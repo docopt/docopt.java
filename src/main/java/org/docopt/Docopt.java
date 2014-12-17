@@ -288,7 +288,7 @@ public final class Docopt {
 		return parsed;
 	}
 
-	private static Required parsePattern(final String source,
+	public static Required parsePattern(final String source,
 			final List<Option> options) {
 		final Tokens tokens = Tokens.fromPattern(source);
 		final List<? extends Pattern> result = parseExpr(tokens, options);
@@ -431,7 +431,7 @@ public final class Docopt {
 	 * argv ::= [ long | shorts | argument ]* [ '--' [ argument ]* ] ;
 	 * </pre>
 	 */
-	private static List<LeafPattern> parseArgv(final Tokens tokens,
+	public static List<LeafPattern> parseArgv(final Tokens tokens,
 			final List<Option> options, final boolean optionsFirst) {
 		final List<LeafPattern> parsed = list();
 
