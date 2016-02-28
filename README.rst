@@ -70,8 +70,31 @@ You can build a JAR using `Maven http://maven.apache.org/` and include it as a
 dependency in your project. **docopt.java** is not currently available from Maven
 central.
 
-Alternatevely, you can just copy the ``org.docopt`` package into your project--it
+Alternatively, you can just copy the ``org.docopt`` package into your project--it
 is self-contained.
+
+Or you can use https://jitpack.io/ as a package repository:
+
+Add the JitPack repository to your build file
+
+.. code:: xml
+
+  <repositories>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
+
+Add the latest snapshot of docopt to your dependencies
+
+.. code:: xml
+
+  <dependency>
+    <groupId>com.github.docopt</groupId>
+    <artifactId>docopt.java</artifactId>
+    <version>-SNAPSHOT</version>
+  </dependency>
 
 **docopt.java** is tested with Java 6 and Java 7.
 
