@@ -64,7 +64,7 @@ import org.docopt.Python.Re;
  *
  * Licensed under terms of MIT license (see LICENSE).
  * <p>
- * Copyright (c) 2012 Vladimir Keleshev, vladimir@keleshev.com<br />
+ * Copyright (c) 2012 Vladimir Keleshev, vladimir@keleshev.com<br>
  * Copyright (c) 2014 Damien Giese, damien.giese@gmail.com
  *
  * @version 0.6.0
